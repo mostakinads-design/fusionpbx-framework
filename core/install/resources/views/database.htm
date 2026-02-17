@@ -1,9 +1,9 @@
 <div id='page' align='center'>
-	<form method='post' name='frm' action=''>
+	<form method='post' name='frm' action='' id='database_form'>
 		<table width='100%' border='0' cellpadding='10' cellspacing='0'>
 			<tr>
 				<td align='left' width='30%' nowrap='nowrap'>
-					<b>Installation: PostgreSQL</b>
+					<b>Installation: Database</b>
 				</td>
 				<td width='70%' align='right'>
 					<input type='button' class='btn' name='' alt='back' onclick="history.go(-1);" value='Back'>
@@ -11,10 +11,22 @@
 			</tr>
 			<tr>
 				<td class='vncellreq' valign='top' align='left' nowrap='nowrap'>
+					Database Type
+				</td>
+				<td class='vtable' align='left'>
+					<select class='formfld' name='database_type' id='database_type' onchange='updateDatabaseDefaults()'>
+						<option value='pgsql' {if $database_type eq 'pgsql'}selected{/if}>PostgreSQL</option>
+						<option value='mysql' {if $database_type eq 'mysql'}selected{/if}>MySQL</option>
+					</select><br />
+					Select the database type to use.
+				</td>
+			</tr>
+			<tr>
+				<td class='vncellreq' valign='top' align='left' nowrap='nowrap'>
 					{$label_host}
 				</td>
 				<td class='vtable' align='left'>
-					<input class='formfld' type='text' name='database_host' maxlength='255' value="{$database_host}"><br />
+					<input class='formfld' type='text' name='database_host' id='database_host' maxlength='255' value="{$database_host}"><br />
 					Enter the host address for the database server.
 				</td>
 			</tr>
@@ -23,7 +35,7 @@
 					{$label_port}
 				</td>
 				<td class='vtable' align='left'>
-					<input class='formfld' type='text' name='database_port' maxlength='255' value="{$database_port}"><br />
+					<input class='formfld' type='text' name='database_port' id='database_port' maxlength='255' value="{$database_port}"><br />
 					Enter the port number. It is optional if the database is using the default port.
 				</td>
 			</tr>
@@ -62,4 +74,20 @@
 			</tr>
 		</table>
 	</form>
+	<script>
+	function updateDatabaseDefaults() {
+		var dbType = document.getElementById('database_type').value;
+		var portField = document.getElementById('database_port');
+		
+		if (dbType === 'mysql') {
+			if (portField.value === '' || portField.value === '5432') {
+				portField.value = '3306';
+			}
+		} else if (dbType === 'pgsql') {
+			if (portField.value === '' || portField.value === '3306') {
+				portField.value = '5432';
+			}
+		}
+	}
+	</script>
 </div>

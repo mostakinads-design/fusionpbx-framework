@@ -9,6 +9,7 @@ if (!class_exists('install')) {
 		private $app_name;
 		private $app_uuid;
 		public $message;
+		public $database_type;
 		public $database_host;
 		public $database_port;
 		public $database_name;
@@ -106,10 +107,12 @@ if (!class_exists('install')) {
 			//build the config file
 			$conf = "\n";
 			$conf .= "#database system settings\n";
-			$conf .= "database.0.type = pgsql\n";
+			$conf .= "database.0.type = ".(!empty($this->database_type) ? $this->database_type : 'pgsql')."\n";
 			$conf .= "database.0.host = ".$this->database_host."\n";
 			$conf .= "database.0.port = ".$this->database_port."\n";
-			$conf .= "database.0.sslmode = prefer\n";
+			if (!empty($this->database_type) && $this->database_type == 'pgsql') {
+				$conf .= "database.0.sslmode = prefer\n";
+			}
 			$conf .= "database.0.name = ".$this->database_name."\n";
 			$conf .= "database.0.username = ".$this->database_username."\n";
 			$conf .= "database.0.password = ".$this->database_password."\n";

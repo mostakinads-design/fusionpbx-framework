@@ -144,6 +144,7 @@
 				case 'admin_username':
 				case 'admin_password':
 				case 'domain_name':
+				case 'database_type':
 				case 'database_host':
 				case 'database_port':
 				case 'database_name':
@@ -163,6 +164,7 @@
 
 			//build the config file
 			$install = new install;
+			$install->database_type = $_SESSION['install']['database_type'];
 			$install->database_host = $_SESSION['install']['database_host'];
 			$install->database_port = $_SESSION['install']['database_port'];
 			$install->database_name = $_SESSION['install']['database_name'];
@@ -369,6 +371,7 @@
 	$view->assign("admin_username", "admin");
 	$view->assign("admin_password", "");
 	$view->assign("domain_name", $domain_name);
+	$view->assign("database_type", "pgsql");
 	$view->assign("database_host", "localhost");
 	$view->assign("database_port", "5432");
 	$view->assign("database_name", "fusionpbx");
